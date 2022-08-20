@@ -9,7 +9,6 @@
               placeholder="Filter By Title"
               v-model="search"
               class="animate__animated animate__bounce animate__delay-0.5"
-              @keypress="filterJobs"
             />
           </form>
         </div>
@@ -28,24 +27,7 @@
           <router-link
             :to="{
               name: 'jobDetails',
-              params: {
-                id: job.id,
-                website:job.website,
-                company: job.company,
-                position: job.position,
-                logo: job.logo,
-                bg: job.logoBackground,
-                description: job.description,
-                location: job.location,
-                postedAt: job.postedAt,
-                website: job.website,
-                contract: job.contract,
-                apply: job.apply,
-                content: job.requirements.content,
-                item: job.requirements.items,
-                roleA: job.role.content,
-                roleB: job.role.items,
-              },
+              params: { jobPosition: job.position },
             }"
           >
             <div class="card">
@@ -85,7 +67,7 @@ export default {
   computed: {
     filterJobs() {
       return this.jobs.filter((job) =>
-        job.position.toLowerCase().includes(this.search)
+        job.position.toLowerCase().match(this.search)
       );
     },
   },
@@ -105,7 +87,7 @@ input[type="search"] {
   z-index: 1;
   position: relative;
   top: -10px;
-  border-radius:10px 10px;
+  border-radius: 5px 5px;
   margin-bottom: 30px;
   border: none;
 }
@@ -116,7 +98,7 @@ input[type="search"] {
 }
 .card:hover {
   margin: 0 1rem;
-  color:black !important;
+  color: black !important;
 
   animation: pulse; /* referring directly to the animation's @keyframe declaration */
   animation-duration: 1s; /* don't forget to set a duration! */

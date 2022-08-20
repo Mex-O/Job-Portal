@@ -7,25 +7,31 @@
       <div class="container-fluid">
         <div class="column d-flex justify-content-center">
           <div class="col-md-6 sm-12" id="section">
-            <span class="posted">{{ postedAt }}</span>
+            <span class="posted">{{ job.postedAt }}</span>
             <span class="fullstop">.</span>
-            <span class="contract">{{ contract }}</span>
-            <h5 class="position">{{ position }}</h5>
-            <a :href="apply"
-              ><input type="button" class="btn btn-secondary" value="Apply Now"
+            <span class="contract">{{ job.contract }}</span>
+            <h5 class="position">{{ job.position }}</h5>
+            <a :href="job.apply"
+              ><input
+                type="button"
+                class="btn btn-secondary disabled"
+                value="Apply Now"
             /></a>
-            <a :href="website"
-              ><input type="button" class="btn btn-secondary" value="Company Website"
+            <a :href="job.website"
+              ><input
+                type="button"
+                class="btn btn-secondary disabled"
+                value="Company Website"
             /></a>
-            <h4>{{ description }}</h4>
+            <h4>{{ job.description }}</h4>
             <h5>Requirement</h5>
-            <p>{{ content }}</p>
-            <li v-for="(items, i) in item" :key="i">
+            <p>{{ job.requirements.content }}</p>
+            <li v-for="(items, i) in job.requirements.items" :key="i">
               {{ items }}
             </li>
             <h5>What You Will Do</h5>
-            <p>{{ roleA }}</p>
-            <li v-for="(items, i) in roleB" :key="i">
+            <p>{{ job.role.content }}</p>
+            <li v-for="(items, i) in job.role.items" :key="i">
               {{ items }}
             </li>
           </div>
@@ -37,26 +43,30 @@
 
 <script>
 import Header from "@/components/Header.vue";
+import jobs from "../data.json";
 export default {
   components: { Header },
-  props: [
-    "logo",
-    "bg",
-    "id",
-    "company",
-    "postedAt",
-    "contract",
-    "description",
-    "location",
-    "website",
-    "apply",
-    "content",
-    "website",
-    "item",
-    "roleA",
-    "roleB",
-    "position",
-  ],
+  data() {
+    return {
+      jobs: jobs,
+    };
+  },
+  computed: {
+    jobPosition() {
+      return this.$route.params.jobPosition;
+    },
+    job() {
+      return this.jobs.find((item) => {
+        // return item.id === parseInt(this.productId)
+        return item.position == this.jobPosition;
+      });
+    },
+  },
+  watch: {
+    $route() {
+      this.job;
+    },
+  },
 };
 </script>
 
@@ -76,10 +86,10 @@ export default {
 .btn {
   background-color: #5964e0;
   text-transform: uppercase;
-  padding:10px;
-  margin:2px;
-  border:none;
-  letter-spacing:0.2rem;
+  padding: 10px;
+  margin: 2px;
+  border: none;
+  letter-spacing: 0.2rem;
 }
 h4,
 h5,
@@ -87,8 +97,8 @@ p,
 li {
   margin-top: 20px;
 }
-h5{
-  font-weight:900;
+h5 {
+  font-weight: 900;
 }
 p,
 li {
@@ -97,14 +107,13 @@ li {
 .position {
   margin-top: 20px;
 }
-.img-fluid{
-  width:100%;
-  height:100%;
-  object-fit:contain;
+.img-fluid {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-.home{
-  color:#343a40;
-  margin:20px;
+.home {
+  color: #343a40;
+  margin: 20px;
 }
-
 </style>

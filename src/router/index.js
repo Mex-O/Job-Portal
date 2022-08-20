@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import JobDetails from '../views/JobDetails.vue'
+
 
 const routes = [
   {
@@ -8,19 +10,22 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/JobDetails/:id',
+    path: '/JobDetails/:jobPosition',
     name: 'jobDetails',
-    props:true,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/JobDetails.vue')
+    component: JobDetails,
   }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior() {
+    // always scroll to top
+    return { 
+        top: 0,
+        behavior: 'smooth', 
+   }
+  }
 })
 
 export default router
