@@ -67,7 +67,7 @@ export default {
   computed: {
     filterJobs() {
       return this.jobs.filter((job) =>
-        job.position.toLowerCase().match(this.search)
+        job.position.toLowerCase().match(this.search.toLowerCase())
       );
     },
   },
